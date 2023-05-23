@@ -7,13 +7,28 @@
   <div>
     Projeto aplicando banco de dados do 3º Semestre
   <div>
-    Este projeto auxilia os calculos do dimensionamento de partida simples de Motor Trifásico
+    Este projeto auxilia os cálculos do dimensionamento de partida simples de Motor Trifásico
 </div>
 
 ##
 </div>
    <img align="right" height="150em" src="https://media.tenor.com/zf6bBuWWkM8AAAAd/spirited-away-ghibli.gif"/>
-    Utilizando os manuais oferecidos pelo nosso amigao ademar modelamos os bancos de dados :D
- </div>
- <img align= "lef" height="150em" src="https://media.tenor.com/Jsj-LPg73J0AAAAC/cute-animals.gif"/>
-    Utilizamos o software QT para desenvolver esse projeto. Pois ele nos oferece o recurso grafico que desejavamos e a facil integração com o banco de dados 
+    Utilizando os manuais oferecidos pelo nosso amigão Ademar modelamos os bancos de dados!! :D
+ <br/>
+     <br/>
+     <br/>
+     <br/>
+     <br/>
+     <br/>
+  
+    
+##
+</div>
+ <img align= "left" height="150em" src="https://media.tenor.com/Jsj-LPg73J0AAAAC/cute-animals.gif"/>
+<p style='text-align: right;'>
+ㅤㅤUtilizamos o software QT para desenvolver esse projeto, pois ele nos oferece o recurso gráfico que <br/>
+  ㅤㅤdesejávamos e a fácil integração com o banco de dados. 
+  </div>
+  </div>
+
+</div>
