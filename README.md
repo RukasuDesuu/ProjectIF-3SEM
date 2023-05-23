@@ -26,7 +26,7 @@
 </div>
  <img align= "left" height="150em" src="https://media.tenor.com/Jsj-LPg73J0AAAAC/cute-animals.gif"/>
 <p style='text-align: right;'>
-ㅤㅤUtilizamos o software QT para desenvolver esse projeto, pois ele nos oferece o recurso gráfico que desejávamos e a fácil integração com o banco de dados. 
+ㅤㅤUtilizamos o software QT para desenvolver esse projeto, pois ele nos oferece oㅤㅤrecurso gráfico que desejávamos e a fácil integração com o banco de dados. 
   </div>
   </div>
 
