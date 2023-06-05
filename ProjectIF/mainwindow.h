@@ -19,6 +19,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_tabWidget_currentChanged(int index);
+
+    void on_calcBtn_clicked();
+
+    void on_voltarBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

@@ -23,10 +23,10 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>761</width>
-      <height>381</height>
+      <x>10</x>
+      <y>-30</y>
+      <width>791</width>
+      <height>621</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -40,15 +40,8 @@
       <item row="6" column="2">
        <widget class="QLineEdit" name="inTxt"/>
       </item>
-      <item row="4" column="2">
-       <widget class="QLineEdit" name="freqTxt"/>
-      </item>
-      <item row="3" column="2">
-       <widget class="QLabel" name="freqlbl">
-        <property name="text">
-         <string>Frequencia</string>
-        </property>
-       </widget>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="tensaoTxt"/>
       </item>
       <item row="0" column="1">
        <widget class="QLabel" name="tensaolbl">
@@ -56,36 +49,6 @@
          <string>Tensão</string>
         </property>
        </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="potlbl">
-        <property name="text">
-         <string>Potência</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="2">
-       <widget class="QLabel" name="inlbl">
-        <property name="text">
-         <string>Corrente Nominal (In)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="tensaoTxt"/>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLineEdit" name="potTxt"/>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLabel" name="fslbl">
-        <property name="text">
-         <string>Fator de Serviço (FS)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="fstxt"/>
       </item>
       <item row="5" column="1">
        <widget class="QLabel" name="ipinlbl">
@@ -96,6 +59,43 @@
       </item>
       <item row="6" column="1">
        <widget class="QLineEdit" name="ipinTxt"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="potlbl">
+        <property name="text">
+         <string>Potência</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="freqlbl">
+        <property name="text">
+         <string>Frequencia</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLineEdit" name="freqTxt"/>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLabel" name="inlbl">
+        <property name="text">
+         <string>Corrente Nominal (In)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="potTxt"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="fstxt"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="fslbl">
+        <property name="text">
+         <string>Fator de Serviço (FS)</string>
+        </property>
+       </widget>
       </item>
       <item row="13" column="1" rowspan="2" colspan="3">
        <widget class="QPushButton" name="calcBtn">
@@ -110,18 +110,34 @@
      <attribute name="title">
       <string>Tab 2</string>
      </attribute>
+     <widget class="QPushButton" name="voltarBtn">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>550</y>
+        <width>739</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>DIMENSIONAR OUTRO MOTOR</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="testlbl">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>49</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
     </widget>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>21</height>
-    </rect>
-   </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
