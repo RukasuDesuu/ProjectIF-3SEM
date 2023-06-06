@@ -22,18 +22,20 @@ QSqlDatabase db;
 
 void MainWindow::on_calcBtn_clicked()
 {
-    int tensao, pot, fs, freq, ipin, in;
+    int tensao, pot, fs, freq, ipin, in, nca, nfa;
+    bool isAC;
     tensao = ui -> tensaoTxt -> text().toInt();
     pot = ui -> potTxt -> text().toInt();
     fs = ui -> fstxt -> text().toInt();
     freq = ui -> freqTxt -> text().toInt();
     ipin = ui -> ipinTxt -> text().toInt();
     in = ui -> inTxt -> text().toInt();
-
+    nca = ui -> CAspn -> get
     db = QSqlDatabase::addDatabase ("QSQLITE");
-    db.setDatabaseName("R:/IFSP/3ºSEM/prog/Projeto/ProjetoIF/ProjectIF-3SEM/bd/ademar.sqlite");
+    db.setDatabaseName("../bd/ademar.sqlite");
 
         ui -> testlbl -> setText(QVariant(db.open()).toString());
+
 
     ui -> tabWidget -> setCurrentIndex(1);
 }
