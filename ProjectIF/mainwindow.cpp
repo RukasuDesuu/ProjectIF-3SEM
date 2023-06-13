@@ -2,7 +2,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QtSql>
-
+#include <QDebug>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -22,15 +22,18 @@ QSqlDatabase db;
 
 void MainWindow::on_calcBtn_clicked()
 {
-    int tensao, pot, fs, freq, ipin, in, nca, nfa;
+    int tensao, pot, nca, ncf;
+    float fs, ipin, in;
     bool isAC;
     tensao = ui -> tensaoTxt -> text().toInt();
     pot = ui -> potTxt -> text().toInt();
-    fs = ui -> fstxt -> text().toInt();
-    freq = ui -> freqTxt -> text().toInt();
-    ipin = ui -> ipinTxt -> text().toInt();
-    in = ui -> inTxt -> text().toInt();
-    nca = ui -> CAspn -> get
+    fs = ui -> fstxt -> text().toFloat();
+    ipin = ui -> ipinTxt -> text().toFloat();
+    in = ui -> inTxt -> text().toFloat();
+    nca = ui -> CAspn -> text().toInt();
+    ncf = ui -> CFspn -> text().toInt();
+    isAC = ui -> ACDCslider -> value();
+
     db = QSqlDatabase::addDatabase ("QSQLITE");
     db.setDatabaseName("../bd/ademar.sqlite");
 
@@ -38,6 +41,16 @@ void MainWindow::on_calcBtn_clicked()
 
 
     ui -> tabWidget -> setCurrentIndex(1);
+
+    qDebug() << tensao;
+    qDebug() << pot;
+    qDebug() << fs;
+
+    qDebug()<<ipin;
+    qDebug()<<in;
+    qDebug()<<nca;
+    qDebug()<<ncf;
+    qDebug()<<isAC;
 }
 
 
