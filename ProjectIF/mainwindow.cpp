@@ -45,7 +45,6 @@ void MainWindow::on_calcBtn_clicked()
     qDebug() << tensao;
     qDebug() << pot;
     qDebug() << fs;
-
     qDebug()<<ipin;
     qDebug()<<in;
     qDebug()<<nca;
