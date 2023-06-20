@@ -58,6 +58,7 @@ public:
     QLabel *label_2;
     QLabel *inlbl;
     QLabel *fslbl;
+    QLineEdit *tensaoTxt;
     QLabel *label;
     QLabel *potlbl;
     QGridLayout *gridLayout_2;
@@ -65,7 +66,6 @@ public:
     QLabel *CAlbl;
     QLineEdit *inTxt;
     QLineEdit *fstxt;
-    QLineEdit *tensaoTxt;
     QWidget *pag2;
     QPushButton *voltarBtn;
     QLabel *testlbl;
@@ -82,7 +82,7 @@ public:
         centralwidget->setObjectName("centralwidget");
         tabWidget = new QTabWidget(centralwidget);
         tabWidget->setObjectName("tabWidget");
-        tabWidget->setGeometry(QRect(10, 10, 791, 561));
+        tabWidget->setGeometry(QRect(0, -40, 791, 561));
         pag1 = new QWidget();
         pag1->setObjectName("pag1");
         gridLayout = new QGridLayout(pag1);
@@ -210,6 +210,11 @@ public:
 
         gridLayout->addWidget(fslbl, 1, 3, 1, 1);
 
+        tensaoTxt = new QLineEdit(pag1);
+        tensaoTxt->setObjectName("tensaoTxt");
+
+        gridLayout->addWidget(tensaoTxt, 2, 1, 1, 1);
+
         label = new QLabel(pag1);
         label->setObjectName("label");
         label->setFont(font);
@@ -245,11 +250,6 @@ public:
         fstxt->setObjectName("fstxt");
 
         gridLayout->addWidget(fstxt, 2, 3, 1, 1);
-
-        tensaoTxt = new QLineEdit(pag1);
-        tensaoTxt->setObjectName("tensaoTxt");
-
-        gridLayout->addWidget(tensaoTxt, 2, 1, 1, 1);
 
         tabWidget->addTab(pag1, QString());
         pag2 = new QWidget();

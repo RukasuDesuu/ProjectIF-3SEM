@@ -3,6 +3,7 @@
 #include "ui_mainwindow.h"
 #include <QtSql>
 #include <QDebug>
+#include <QMessageBox>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -34,9 +35,18 @@ void MainWindow::on_calcBtn_clicked()
     ncf = ui -> CFspn -> text().toInt();
     isAC = ui -> ACDCslider -> value();
 
-    db = QSqlDatabase::addDatabase ("QSQLITE");
-    db.setDatabaseName("../bd/ademar.sqlite");
+    try{
+        db = QSqlDatabase::addDatabase ("QSQLITE");
+        db.setDatabaseName("../bd/ademar.sqlite");
 
+
+
+
+
+    }
+    catch (int){
+        QMessageBox::information(this, "ERRO!", "ERRO AO CONECTAR AO BANCO DE DADOS OU DADOS INVALIDOS");
+    }
         ui -> testlbl -> setText(QVariant(db.open()).toString());
 
 
