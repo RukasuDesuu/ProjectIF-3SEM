@@ -69,6 +69,9 @@ public:
     QWidget *pag2;
     QPushButton *voltarBtn;
     QLabel *testlbl;
+    QLabel *label_3;
+    QLabel *label_4;
+    QLabel *label_5;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -260,6 +263,15 @@ public:
         testlbl = new QLabel(pag2);
         testlbl->setObjectName("testlbl");
         testlbl->setGeometry(QRect(10, 20, 49, 16));
+        label_3 = new QLabel(pag2);
+        label_3->setObjectName("label_3");
+        label_3->setGeometry(QRect(10, 100, 49, 16));
+        label_4 = new QLabel(pag2);
+        label_4->setObjectName("label_4");
+        label_4->setGeometry(QRect(10, 150, 49, 16));
+        label_5 = new QLabel(pag2);
+        label_5->setObjectName("label_5");
+        label_5->setGeometry(QRect(10, 200, 49, 16));
         tabWidget->addTab(pag2, QString());
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
@@ -268,7 +280,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -293,6 +305,9 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(pag1), QCoreApplication::translate("MainWindow", "Tab 1", nullptr));
         voltarBtn->setText(QCoreApplication::translate("MainWindow", "DIMENSIONAR OUTRO MOTOR", nullptr));
         testlbl->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
+        label_3->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
+        label_4->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
+        label_5->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(pag2), QCoreApplication::translate("MainWindow", "Tab 2", nullptr));
     } // retranslateUi
 
