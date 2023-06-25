@@ -9,11 +9,19 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    contatoresservice.cpp \
+    dbcontroller.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
-    mainwindow.h
+    contatora.h \
+    contatoresservice.h \
+    dbcontroller.h \
+    mainwindow.h \
+    rele.h \
+    releCur.h \
+    tensao.h
 
 FORMS += \
     mainwindow.ui

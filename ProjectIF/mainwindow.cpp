@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QString>
+#include <contatoresservice.h>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -18,12 +19,26 @@ MainWindow::~MainWindow()
     ui -> tabWidget -> setCurrentIndex(0);
 }
 
-
-
 QSqlDatabase db;
+
+
+//Numero de Linhas
+/*int getNRows(float y){
+    query.prepare("SELECT COUNT(Imin) FROM rele_cod WHERE Imin < ? AND Imax > ?");
+    query.addBindValue(y);
+    query.addBindValue(y);
+    query.exec();
+    if(query.first()){
+        return query.value(0).toInt();
+    }else{
+        return 0;
+    }
+}*/
+
 
 void MainWindow::on_calcBtn_clicked()
 {
+    /*
     //Declarando as Variaveis
     int tensao, pot, nca, ncf, x;
     float fs, ipin, in, iminc, ifrt, det;
@@ -39,7 +54,7 @@ void MainWindow::on_calcBtn_clicked()
     ncf = ui -> CFspn -> text().toInt();
     isAC = ui -> ACDCslider -> value();
     QString codigo;
-    x = 0;
+    x = 1;
     
  
 
@@ -71,15 +86,9 @@ void MainWindow::on_calcBtn_clicked()
             imint=0;
             imaxt=0;
 
-            if(query.prepare("SELECT COUNT(Imin) FROM rele_cod WHERE Imin < ? AND Imax > ?")){qDebug() << "Prepare 1 Success";}
-            query.addBindValue(ifrt);
-            query.addBindValue(ifrt);
-            if(query.exec()){qDebug() << "Exec 1 Success";}
-            if(query.first()){
-                x = query.value(0).toInt();
-            }
-            float Imin[x];
-            float Imax[x];
+            qDebug() << getNRows(ifrt);
+            float Imin[getNRows(ifrt)];
+            float Imax[getNRows(ifrt)];
 
             
             if (query.prepare("SELECT Imax FROM rele_cod WHERE Imin < ? AND Imax > ?")){qDebug()<< "Prepare 2 Success";}
@@ -108,13 +117,13 @@ void MainWindow::on_calcBtn_clicked()
                     det1 = imaxt - ifrt;
                     det2 = ifrt - imint;
                     det  = det1 + det2;
-                    qDebug() << maior;
+                    /*qDebug() << maior;
                     qDebug() << det1;
                     qDebug() << det2;
                     qDebug() << det;
                     qDebug() << ifrt;
                     qDebug() << imaxt;
-                    qDebug() << imint;
+                    qDebug() << imint;*//*
                 if(det > maior){
                         maior = det;
                         imax = imaxt;
@@ -173,9 +182,18 @@ void MainWindow::on_calcBtn_clicked()
     //qDebug() << codigo;
     /*qDebug() << modelos[0];
     qDebug() << modelos[1];*/
+
+    ContatoresService paulo = new ContatoresService();
+
+    paulo.GetAllContatoras();
+
 }
 
 void MainWindow::on_voltarBtn_clicked()
 {
     ui -> tabWidget -> setCurrentIndex(0);
 }
+
+
+
+
