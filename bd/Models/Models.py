@@ -21,7 +21,7 @@ association_table_tensao = Table('liga_tensao_contatora', Base.metadata,
 
 association_table_corrente = Table('liga_releCod_releModel', Base.metadata,
     Column('idCod', Integer, ForeignKey('rele_cod.id')),
-    Column('idModel', Integer, ForeignKey('contat.id'))
+    Column('idModel', Integer, ForeignKey('rele_model.id'))
 )
 
 class ContatoraModel(Base):
@@ -32,7 +32,7 @@ class ContatoraModel(Base):
     reles = relationship('ReleModel', secondary=association_table_rele, back_populates='contatoras')
     contatos = relationship('ContatoModel', secondary=association_table_contato, back_populates='contatoras')
     tensoes = relationship('TensaoModel', secondary=association_table_tensao, back_populates='contatoras')
-    correntes =  relationship('ReleCod', secondary=association_table_corrente, back_populates='contatoras')
+    
 
 class ReleModel(Base):
     __tablename__ = "rele_model"
@@ -40,6 +40,7 @@ class ReleModel(Base):
     id = Column(Integer, primary_key=True)
     modelo = Column(String(32))
     contatoras = relationship('ContatoraModel', secondary=association_table_rele, back_populates='reles')
+    releCod = relationship('ReleCod', secondary = association_table_corrente, back_populates='releMod')
 
 class ContatoModel(Base):
     __tablename__ = "aux"
@@ -65,4 +66,4 @@ class ReleCod(Base):
     cod = Column(String)
     imax = Column(Integer)
     imin = Column(Integer)
-    contatoras = relationship('ContatoraModel', secondary=association_table_corrente, back_populates='correntes')
+    releMod = relationship('ReleModel', secondary = association_table_corrente, back_populates='releCod')

@@ -1,12 +1,15 @@
 
 #pip install PySimpleGUI
+import re
 from typing import List
 import PySimpleGUI as sg
 
 from bd.Core.Services.ContatoraService.ContatoraService import ContatoraService
+from bd.Core.Services.ReleService.ReleService import ReleService
 from bd.Models.Models import ContatoraModel, ReleModel, ReleCod
 
 contatoraService: ContatoraService = ContatoraService()
+releService: ReleService = ReleService()
 
 
 def cadastro():
@@ -89,21 +92,29 @@ def cadastro():
             #       det1=imax-ifrt;
             #       det2=imin-ifrt;
             #       det=det1+det2;
-            
-            contats:List[ContatoraModel] = contatoraService.get_all()
-            listRelesRange = []
-            for contatora in contats:
-                for rele in contatora.correntes:
-                    if (rele.imax <= 1.2 and rele.imin >= 0.8):
-                        listRelesRange.append(rele)
 
-                
+            #SELECT Imin, Imax FROM rele_cod WHERE Imin < ifrt AND Imax > ifrt
+            x = releService.GetReleByMinMax(ifrt)
+
+            contats:List[ContatoraModel] = contatoraService.get_all()
+            if (nca+ncf > 4):
+                sg.popup_ok_cancel("Erro!", "contatos abertos + fechados deve ser menor que 4",  title="Error")
+            listContatora = []
+            listRelesRange = []
+            listContatoraResul = []
+            for contatora in contats:
+                for contato in contatora.contatos:
+                    if (contato.aberto == nca and contato.fechado == ncf):
+                        listContatora.append(contatora.modelo)
+
+            for contatora in listContatora:
+                valorModelo = re.sub(r'\D', '', contatora)
+                if (iminc <= float(valorModelo)):
+                    listContatoraResul.append(contatora)
             
+
+            sg.popup_ok_cancel("Resultado:", "Rele: " + ", ".join(map(str,listRelesRange)), "Contatora: " + ", ".join(map(str,listContatoraResul)) ,  title="Resultado")
 
         if event == sg.WIN_CLOSED or event == 'Exit':
             break
-
-
-
-
 cadastro()
