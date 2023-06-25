@@ -25,7 +25,7 @@ QSqlDatabase db;
 void MainWindow::on_calcBtn_clicked()
 {
     //Declarando as Variaveis
-    int tensao, pot, nca, ncf;
+    int tensao, pot, nca, ncf, x;
     float fs, ipin, in, iminc, ifrt, det;
     bool isAC;
 
@@ -39,95 +39,127 @@ void MainWindow::on_calcBtn_clicked()
     ncf = ui -> CFspn -> text().toInt();
     isAC = ui -> ACDCslider -> value();
     QString codigo;
-
-    //Conectando ao Bando de Dados
-    db = QSqlDatabase::addDatabase ("QSQLITE");
-    db.setDatabaseName("../bd/ademar.sqlite");
-    QSqlQuery query;
+    x = 0;
+    
+ 
 
     try{
+        //Conectando ao Bando de Dados
+        db = QSqlDatabase::addDatabase ("QSQLITE");
+        db.setDatabaseName("../bd/ademar.sqlite");
+        db.open();
+        
+
         //Contator
         iminc = in*1.1;
 
         //Relé Sobrecarga
+        ifrt = 0;
         if(fs<1.15) {ifrt = in*1.15;}
 
         if (fs>=1.15){ifrt = in*1.25;}
         
+
         //ログや何らかの回復処理
-        
+        if(db.isOpen()){
+            qDebug() << "DB TA ABERTO!";
+            QSqlQuery query;
             //query dos valores dos códigos e correntes relativos à corrente de ajuste :T
             float imax, imin, imaxt, imint, det1, det2, det, maior;
-            int id_c, x;
+            int idc;
             maior = 0;
-            query.prepare("SELECT COUNT(Imax) FROM rele_cod WHERE Imin < ? AND Imax > ?");
+            imint=0;
+            imaxt=0;
+
+            if(query.prepare("SELECT COUNT(Imin) FROM rele_cod WHERE Imin < ? AND Imax > ?")){qDebug() << "Prepare 1 Success";}
             query.addBindValue(ifrt);
             query.addBindValue(ifrt);
-            query.exec();
-            x = query.value(0).toInt();
-            float Imax[x-1];
-            query.prepare("SELECT Imax FROM rele_cod WHERE Imin < ? AND Imax > ?");
-            query.addBindValue(ifrt);
-            query.addBindValue(ifrt);
-            query.exec();
-            for(int i = 0; i==x-1; i++){
-                Imax[i] = query.value(0).toFloat();
-                query.next();
+            if(query.exec()){qDebug() << "Exec 1 Success";}
+            if(query.first()){
+                x = query.value(0).toInt();
             }
-            query.prepare("SELECT COUNT(Imin) FROM rele_cod WHERE Imin < ? AND Imax > ?");
+            float Imin[x];
+            float Imax[x];
+
+            
+            if (query.prepare("SELECT Imax FROM rele_cod WHERE Imin < ? AND Imax > ?")){qDebug()<< "Prepare 2 Success";}
             query.addBindValue(ifrt);
             query.addBindValue(ifrt);
-            query.exec();
-            x = query.value(0).toInt();
-            float Imin[x-1];
-            query.prepare("SELECT Imin FROM rele_cod WHERE Imin < ? AND Imax > ?");
-            query.addBindValue(ifrt);
-            query.addBindValue(ifrt);
-            query.exec();
-            for(int i = 0; i==x-1; i++){
-                Imin[i] = query.value(0).toFloat();
-                query.next();
-            }
-    for(int i = 0; i<=2; i++){
-            imint = Imin[i];
-            imaxt = Imax[i];
-            det1 = imax - ifrt;
-            det2 = ifrt - imin;
-            det  = det1 + det2;
-            if(det > maior){
-                maior = det;
-                imax = imaxt;
-                imin = imint;
+            if(query.exec()){qDebug() << "Exec 2 Success";}
+            if(query.first()){
+                for(int i = 0; i==x-1; i++){
+                    Imax[i] = query.value(0).toFloat();
+                    query.next();
                 }
             }
-            query.prepare("SELECT cod FROM rele_cod WHERE Imin = ? AND Imax = ?");
+            if(query.prepare("SELECT Imin FROM rele_cod WHERE Imin < ? AND Imax > ?")){qDebug()<<"Prepare 4 Success";}
+            query.addBindValue(ifrt);
+            query.addBindValue(ifrt);
+            if(query.exec()){qDebug() << "Exec 4 Success";}
+            if(query.first()){
+                for(int i = 0; i==x-1; i++){
+                 Imin[i] = query.value(0).toFloat();
+                 query.next();
+                }
+            }
+            for(int i = 0; i==x-1; i++){
+                    imint = Imin[i];
+                    imaxt = Imax[i];
+                    det1 = imaxt - ifrt;
+                    det2 = ifrt - imint;
+                    det  = det1 + det2;
+                    qDebug() << maior;
+                    qDebug() << det1;
+                    qDebug() << det2;
+                    qDebug() << det;
+                    qDebug() << ifrt;
+                    qDebug() << imaxt;
+                    qDebug() << imint;
+                if(det > maior){
+                        maior = det;
+                        imax = imaxt;
+                        imin = imint;
+                        qDebug()<<imax;
+                        qDebug()<<imin;
+                }
+                    qDebug()<<" ";
+            }
+            if(query.prepare("SELECT cod FROM rele_cod WHERE Imin = ? AND Imax = ?")){qDebug()<<"Prepare 5 success";}
             query.addBindValue(imin);
             query.addBindValue(imax);
-            query.exec();
-            codigo = query.value(0).toString();
-            query.prepare("SELECT id_c FROM rele_cod WHERE cod = ?");
+            if(query.exec()){
+                qDebug() << "Exec 5 Success";
+                }else { qDebug()<<"FEIO";}
+            if(query.first()){
+                qDebug() << query.value(0).toString();
+                }else { qDebug()<<"mt feio";}
+            if(query.prepare("SELECT id_c FROM rele_cod WHERE cod = ?")){qDebug()<<"Prepare 6 success";}
             query.addBindValue(codigo);
-            query.exec();
-            id_c = query.value(0).toInt();
-            query.prepare("SELECT COUNT(Modelo) FROM rele_model WHERE cod = ?");
-            query.addBindValue(id_c);
-            query.exec();
-            x = query.value(0).toInt();
-            QString modelos[x-1];
-            query.prepare("SELECT Modelo FROM rele_model WHERE cod = ?");
-            query.addBindValue(id_c);
-            query.exec();
-            for(int i = 0; i==x-1; i++){
-                modelos[i] = query.value(0).toString();
-                query.next();
+            if(query.exec()){qDebug() << "Exec 6 Success";}
+            if(query.first()){idc = query.value(0).toInt();}
+            if(query.prepare("SELECT COUNT(Modelo) FROM rele_model WHERE cod = ?")){qDebug()<<"Prepare 7 Success";}
+            query.addBindValue(idc);
+            if(query.exec()){qDebug() << "Exec 7 Success";}
+            if(query.first()){
+                x = query.value(0).toInt();
+            }
+            QString modelos[x];
+            if(query.prepare("SELECT Modelo FROM rele_model WHERE cod = ?")){qDebug()<<"Prepare 8 Success";}
+            query.addBindValue(idc);
+            if(query.exec()){qDebug() << "Exec 8 Success";}
+            if(query.first()){
+                for(int i = 0; i==x-1; i++){
+                    modelos[i] = query.value(0).toString();
+                    query.next();
+                }
             }
         }
+    }
     catch (...){
         QMessageBox::information(this, "ERRO!", "ERRO AO CONECTAR AO BANCO DE DADOS OU DADOS INVALIDOS");
     }
-        ui -> testlbl -> setText(QVariant(db.open()).toString());
 
-
+    ui -> testlbl -> setText(QVariant(db.isOpen()).toString());
     ui -> tabWidget -> setCurrentIndex(1);
 
     /*qDebug() << tensao;
@@ -138,9 +170,9 @@ void MainWindow::on_calcBtn_clicked()
     qDebug()<<nca;
     qDebug()<<ncf;
     qDebug()<<isAC;*/
-    qDebug() << codigo;
-   // qDebug() << modelos[0];
-    //qDebug() << modelos[1];
+    //qDebug() << codigo;
+    /*qDebug() << modelos[0];
+    qDebug() << modelos[1];*/
 }
 
 void MainWindow::on_voltarBtn_clicked()
