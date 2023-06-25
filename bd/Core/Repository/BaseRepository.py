@@ -13,7 +13,6 @@ class BaseRepository(Generic[T]):
         self._db = DbConnection()
         self._session = self._db.get_session()
         self._entity = entity
-        print()
 
     def get_all(self) -> List[T]:
         return self._session.query(self._entity).all()

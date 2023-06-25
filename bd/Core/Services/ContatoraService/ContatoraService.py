@@ -1,5 +1,5 @@
 from ..BaseService import BaseService
-from Models.ContatoraModel import ContatoraModel
+from bd.Models.Models import ContatoraModel
 
 class ContatoraService(BaseService):
     def __init__(self) -> None:
