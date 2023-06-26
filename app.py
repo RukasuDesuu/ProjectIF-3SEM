@@ -1,5 +1,6 @@
 
 #pip install PySimpleGUI
+import math
 import re
 from typing import List
 import PySimpleGUI as sg
@@ -91,15 +92,16 @@ def cadastro():
             elif (fs>=1.15):
                 ifrt = inom*1.25
 
-            #if (imax>ifrt&&imin<ifrt){
-            #       det1=imax-ifrt;
-            #       det2=imin-ifrt;
-            #       det=det1+det2;
+            #if (imax>ifrt AND imin<ifrt):
+            #    det1=imax-ifrt
+            #    det2=imin-ifrt
+            #    det=det1+det2
 
-            id = (pot/ifrt)*1.7
-            idR = int(id)
+            id = (ifrt/(pot*3))
+            idR = math.ceil(id)
             releObj: ReleModel = releModelService.get_by_id(idR)
             releM = releObj.modelo
+ 
             contats:List[ContatoraModel] = contatoraService.get_all()
             if (nca+ncf > 4):
                 sg.popup_ok_cancel("Erro!", "contatos abertos + fechados deve ser menor que 4",  title="Error")
