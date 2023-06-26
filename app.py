@@ -5,6 +5,7 @@ from typing import List
 import PySimpleGUI as sg
 
 from bd.Core.Services.ContatoraService.ContatoraService import ContatoraService
+from bd.Core.Services.ReleModelService.ReleModelService import ReleModelService
 from bd.Core.Services.ReleService.ReleService import ReleService
 from bd.Core.Services.TensaoService.TensaoService import TensaoService
 from bd.Models.Models import ContatoraModel, ReleModel, ReleCod
@@ -12,6 +13,7 @@ from bd.Models.Models import ContatoraModel, ReleModel, ReleCod
 contatoraService: ContatoraService = ContatoraService()
 releService: ReleService = ReleService()
 tensaoService: TensaoService = TensaoService()
+releModelService: ReleModelService = ReleModelService()
 
 def cadastro():
 
@@ -94,8 +96,10 @@ def cadastro():
             #       det2=imin-ifrt;
             #       det=det1+det2;
 
-            
-
+            id = (pot/ifrt)*1.7
+            idR = int(id)
+            releObj: ReleModel = releModelService.get_by_id(idR)
+            releM = releObj.modelo
             contats:List[ContatoraModel] = contatoraService.get_all()
             if (nca+ncf > 4):
                 sg.popup_ok_cancel("Erro!", "contatos abertos + fechados deve ser menor que 4",  title="Error")
@@ -108,16 +112,15 @@ def cadastro():
                     if (contato.aberto == nca and contato.fechado == ncf):
                         listContatora.append(contatora.modelo)
                         
-
+        
             for contatora in listContatora:
                 valorModelo = re.sub(r'\D', '', contatora)
                 if (iminc <= float(valorModelo)):
                     listContatoraResul.append(contatora)
-
             
             codV = tensaoService.getCodVbyV(tensao, isac)
             
-            sg.popup_ok_cancel("Resultado:", "Rele: " + ", ".join(map(str,listRelesRange)), "Contatora: " + ", ".join(str(x)+"-"+str(nca)+str(ncf)+"30" for x in listContatoraResul), "Codigo da Tensao: " + ", ".join(str(x.cod_v)for x in codV) ,  title="Resultado")
+            sg.popup_ok_cancel("Resultado:", "Rele: " + releM + ", ".join(map(str,listRelesRange)), "Contatora: " + ", ".join(str(x)+"-"+str(nca)+str(ncf)+"30" for x in listContatoraResul), "Codigo da Tensao: " + ", ".join(str(x.cod_v)for x in codV) ,  title="Resultado")
 
         if event == sg.WIN_CLOSED or event == 'Exit':
             break

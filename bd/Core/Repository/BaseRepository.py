@@ -17,7 +17,7 @@ class BaseRepository(Generic[T]):
     def get_all(self) -> List[T]:
         return self._session.query(self._entity).all()
 
-    def get_by_id(self, id: int) -> T:
+    def get_by_id(self, id:int) -> T:
         return self._session.query(self._entity).get(id)
 
     def add(self, entity: T) -> None:

@@ -8,8 +8,9 @@ class ReleService(BaseService):
 
     def GetReleByMinMax(self, ifrt:float)->List[ReleCod]:
         query = self._session.query(ReleCod).filter(ReleCod.imin <= ifrt, ReleCod.imax >= ifrt)
-        return query.all()
-    
+        x = query.all()
+        return x
+
     #SELECT Imin, Imax FROM rele_cod WHERE Imin < ifrt AND Imax > ifrt
     #x = releService.GetReleByMinMax(ifrt)
     #for rele in contatora.reles.releCod:
