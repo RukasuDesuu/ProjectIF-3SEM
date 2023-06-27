@@ -1,6 +1,5 @@
 
 #pip install PySimpleGUI
-import math
 import re
 from typing import List
 import PySimpleGUI as sg
@@ -92,22 +91,27 @@ def cadastro():
             elif (fs>=1.15):
                 ifrt = inom*1.25
 
-            #if (imax>ifrt AND imin<ifrt):
-            #    det1=imax-ifrt
-            #    det2=imin-ifrt
-            #    det=det1+det2
+            #if (imax>ifrt&&imin<ifrt){
+            #       det1=imax-ifrt;
+            #       det2=imin-ifrt;
+            #       det=det1+det2;
 
-            id = (ifrt/(pot*3))
-            idR = math.ceil(id)
-            releObj: ReleModel = releModelService.get_by_id(idR)
-            releM = releObj.modelo
- 
+
+
+            #id = (pot/ifrt)*1.7
+            #idR = int(id)
+            #releObj: ReleModel = releModelService.get_by_id(idR)
+            releM = []
+            relesCod = []
+            releObj:List[ReleCod] = releService.GetReleByMinMax(ifrt)
+            for relesM in releObj:
+                    releM.append(relesM.releMod[0].modelo)
+                    relesCod.append(relesM.cod)
+
             contats:List[ContatoraModel] = contatoraService.get_all()
-            if (nca+ncf > 4):
-                sg.popup_ok_cancel("Erro!", "contatos abertos + fechados deve ser menor que 4",  title="Error")
+            
             listContatora = []
             listRelesRange = []
-            listTensao = []
             listContatoraResul = []
             for contatora in contats:
                 for contato in contatora.contatos:
@@ -119,10 +123,15 @@ def cadastro():
                 valorModelo = re.sub(r'\D', '', contatora)
                 if (iminc <= float(valorModelo)):
                     listContatoraResul.append(contatora)
+                    if len(listContatoraResul) >= 2:
+                        break
             
             codV = tensaoService.getCodVbyV(tensao, isac)
-            
-            sg.popup_ok_cancel("Resultado:", "Rele: " + releM + ", ".join(map(str,listRelesRange)), "Contatora: " + ", ".join(str(x)+"-"+str(nca)+str(ncf)+"30" for x in listContatoraResul), "Codigo da Tensao: " + ", ".join(str(x.cod_v)for x in codV) ,  title="Resultado")
+
+            if (nca+ncf > 4):
+                sg.popup_ok_cancel("Erro!", "contatos abertos + fechados deve ser menor que 4",  title="Error")
+            else:
+                sg.popup_ok_cancel("Resultado:", "Rele: " + ", ".join(map(str,releM)) + ", " +", ".join(map(str,relesCod)), "Contatora: " + ", ".join(str(x)+"-"+str(nca)+str(ncf)+"30" for x in listContatoraResul), "Codigo da Tensao: " + ", ".join(str(x.cod_v)for x in codV) ,  title="Resultado")
 
         if event == sg.WIN_CLOSED or event == 'Exit':
             break
